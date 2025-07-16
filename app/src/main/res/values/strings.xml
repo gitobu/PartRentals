@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Part Rentals</string>
+    <string name="settings_button">Settings</string>
+    <string name="map_button">Map</string>
+    <string name="home_button_label">Order</string>
+    <string name="customer_name_hint">Enter customer name</string>
+    <string name="customer_phone_hint">Customer Phone</string>
+    <string name="city_hint">City</string>
+    <string name="state_hint">ST</string>
+    <string name="zip_code">Zip Code</string>
+    <string name="rental_item_hint">Rental Item</string>
+    <string name="item_description_hint">Item Description</string>
+    <string name="item_quantity_hint">Quantity</string>
+    <string name="summary_page_header">Party Rentals</string>
+    <string name="header_text">PARTY RENTAL SUMMARY</string>
+    <string name="item_label">Item:</string>
+</resources>
