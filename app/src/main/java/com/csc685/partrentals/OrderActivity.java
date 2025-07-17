@@ -30,6 +30,7 @@ public class OrderActivity extends AppCompatActivity {
         buttonOrderAction();
         orderSummaryAction();
         initToggleButton();
+        buttonLocationAction();
         saveAction();
 
     }
@@ -76,6 +77,23 @@ public class OrderActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(OrderActivity.this, OrderSummaryActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                EditText editTextName = findViewById(R.id.editTextCustomerName);
+                String cust_name = editTextName.getText().toString();
+                intent.putExtra("cname", cust_name);
+
+                EditText editTextItem = findViewById(R.id.editTextRentalItem);
+                String rental_item = editTextItem.getText().toString();
+                intent.putExtra("item", rental_item);
+
+                EditText editTextDescription = findViewById(R.id.editTextItemDescription);
+                String item_desc = editTextDescription.getText().toString();
+                intent.putExtra("desc", item_desc);
+
+                EditText editTextQuantity = findViewById(R.id.editTextQuantity);
+                String item_qty = editTextQuantity.getText().toString();
+                intent.putExtra("qty", item_qty);
+
                 startActivity(intent);
             }
         });
@@ -104,4 +122,18 @@ public class OrderActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void buttonLocationAction(){
+        ImageButton address = findViewById(R.id.imageButtonLocation);
+        address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(OrderActivity.this, LocationActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+    }
+
+
 }
