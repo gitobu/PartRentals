@@ -46,6 +46,25 @@ private void getValues(){
     String item_qty = intent.getStringExtra("qty");
     TextView cost = findViewById(R.id.textViewQuantity);
     cost.setText("Item Quantity:" + item_qty);
+
+    int multiplier;
+
+    switch (order_item){
+        case "Chairs":
+            multiplier = 50;
+        break;
+        case "Tables":
+            multiplier = 100;
+        break;
+        case "Plates":
+            multiplier = 10;
+        break;
+        default:
+            multiplier = 0;
+    }
+    int total = Integer.parseInt(item_qty) * multiplier;
+    TextView totalCost = findViewById(R.id.textViewTotalCost);
+    totalCost.setText("Total Cost: " + total);
 }
     private void buttonOrderAction(){
         ImageButton imageButton = findViewById(R.id.imageButtonOrder);
