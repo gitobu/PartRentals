@@ -24,7 +24,7 @@ public class LocationActivity extends AppCompatActivity {
             return insets;
         });
         buttonOrderAction();
-        orderSummaryAction();
+        //orderSummaryAction();
         buttonLocationAction();
     }
     private void buttonOrderAction(){
@@ -38,6 +38,7 @@ public class LocationActivity extends AppCompatActivity {
             }
         });
     }
+    /*
     private void orderSummaryAction(){
         ImageButton orders = findViewById(R.id.imageButtonSummary);
         orders.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +52,7 @@ public class LocationActivity extends AppCompatActivity {
             }
         });
     }
-
+*/
     private void buttonLocationAction(){
         ImageButton address = findViewById(R.id.imageButtonLocation);
         address.setOnClickListener(new View.OnClickListener() {

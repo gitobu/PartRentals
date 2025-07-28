@@ -57,11 +57,11 @@
             tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageButton
-            android:id="@+id/imageButtonSummary"
+            android:id="@+id/imageButtonRenter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_action_summary" />
+            app:srcCompat="@drawable/ic_action_renters" />
 
         <ImageButton
             android:id="@+id/imageButtonLocation"

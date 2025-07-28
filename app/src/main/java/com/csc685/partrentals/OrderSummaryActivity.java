@@ -25,8 +25,9 @@ public class OrderSummaryActivity extends AppCompatActivity {
             return insets;
         });
         buttonOrderAction();
-        orderSummaryAction();
+       // orderSummaryAction();
         buttonLocationAction();
+        buttonRenterAction();
         getValues();
     }
 private void getValues(){
@@ -78,7 +79,7 @@ private void getValues(){
         });
 
     }
-    private void orderSummaryAction(){
+   /* private void orderSummaryAction(){
         ImageButton imageButton = findViewById(R.id.imageButtonSummary);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +90,18 @@ private void getValues(){
             }
         });
     }
-
+*/
+    private void buttonRenterAction(){
+        ImageButton address = findViewById(R.id.imageButtonLocation);
+        address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(OrderSummaryActivity.this, RenterListActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+    }
     private void buttonLocationAction(){
         ImageButton address = findViewById(R.id.imageButtonLocation);
         address.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +113,5 @@ private void getValues(){
             }
         });
     }
-
 
 }
