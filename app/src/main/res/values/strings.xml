@@ -14,5 +14,7 @@
     <string name="summary_page_header">Party Rentals</string>
     <string name="header_text">PARTY RENTAL SUMMARY</string>
     <string name="item_label">Item:</string>
+    <string name="renter_description">Renters</string>
+    <string name="location_description">Location</string>
 
 </resources>

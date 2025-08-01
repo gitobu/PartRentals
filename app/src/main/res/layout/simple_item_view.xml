@@ -6,9 +6,10 @@
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/textViewRenter"
+        android:id="@+id/textViewRenterName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

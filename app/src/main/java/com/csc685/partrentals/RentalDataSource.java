@@ -117,11 +117,10 @@ public class RentalDataSource {
                 newRental.setAddress(cursor.getString(3));
                 newRental.setCity(cursor.getString(4));
                 newRental.setState(cursor.getString(5));
-                newRental.setState(cursor.getString(6));
-                newRental.setZip_code(cursor.getString(7));
-                newRental.setItem(cursor.getString(8));
-                newRental.setQuantity(cursor.getInt(9));
-                newRental.setDescription(cursor.getString(10));
+                newRental.setZip_code(cursor.getString(6));
+                newRental.setItem(cursor.getString(7));
+                newRental.setQuantity(cursor.getInt(8));
+                newRental.setDescription(cursor.getString(9));
                 cursor.moveToNext();
             }
             cursor.close();
@@ -129,5 +128,33 @@ public class RentalDataSource {
             renters = new ArrayList<Rental>();
         }
         return renters;
+    }
+    public Rental getSpecificRental(int rentalId){
+        Rental rental = new Rental();
+        String query = "SELECT * FROM rental  WHERE _id =" + rentalId;
+        Cursor cursor = database.rawQuery(query, null);
+        if (cursor.moveToFirst()){
+            rental.setRentalID(cursor.getInt(0));
+            rental.setCustomer_name(cursor.getString(1));
+            rental.setPhone_number(cursor.getString(2));
+            rental.setAddress(cursor.getString(3));
+            rental.setCity(cursor.getString(4));
+            rental.setState(cursor.getString(5));
+            rental.setZip_code(cursor.getString(6));
+            rental.setItem(cursor.getString(7));
+            rental.setQuantity(cursor.getInt(8));
+            rental.setDescription(cursor.getString(9));
+            cursor.close();
+        }
+        return rental;
+    }
+    public boolean deleteRental(int renatlId){
+        boolean didDelete = false;
+        try {
+            didDelete = database.delete("rental", "_id=" + renatlId, null) > 0;
+        } catch (Exception e) {
+            //Do nothing - return value already set to false
+        }
+        return didDelete;
     }
 }

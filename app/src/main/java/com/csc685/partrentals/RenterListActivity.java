@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.database.SQLException;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -19,18 +22,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class RenterListActivity extends AppCompatActivity {
-/*private View.OnClickListener onItemClickListener = new View.OnClickListener() {
+    ArrayList<Rental> renters;
+    RentalAdapter rentalAdapter;
+    RecyclerView recyclerView;
+private View.OnClickListener onItemClickListener = new View.OnClickListener() {
     @Override
     public void onClick(View view) {
         RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) view.getTag(); /*who tagged me*/
         /*use getTag to know the ViewHolder that sent the tag - who tagged me?*/
-        //int position = viewHolder.getAdapterPosition();/*Where was the tag*/
+        int position = viewHolder.getAdapterPosition();/*Where was the tag*/
         /*With the position known, we go to the activity - here RenterListActivity*/
         /*At this time, we have the position but will do nothing with it*/
-        //Intent intent = new Intent(RenterListActivity.this, OrderActivity.class); /*Where do we go*/
-        //startActivity(intent);
-
-   // }
+        int renterId = renters.get(position).getRentalID();
+        Intent intent = new Intent(RenterListActivity.this, OrderActivity.class); /*Where do we go*/
+        intent.putExtra("renterId",renterId);
+        startActivity(intent);
+    }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +54,8 @@ public class RenterListActivity extends AppCompatActivity {
         //orderSummaryAction();
         buttonLocationAction();
         buttonRenterAction();
-
+        initAddRentalButton();
+        initDeleteSwitch();
         RentalDataSource ds = new RentalDataSource(this);
 
         /*Example of a manually populated array.*/
@@ -57,19 +66,41 @@ public class RenterListActivity extends AppCompatActivity {
         names.add("Tom");
 
         /*Using the database to populate an array*/
-        ArrayList<String> renters;
+
         try {
             ds.open();
-            renters = ds.getRenterNames();
+            renters = ds.getRenterInfo();
             ds.close();
-            RecyclerView renterList = findViewById(R.id.rvRenters);
+            recyclerView = findViewById(R.id.rvRenters);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-            renterList.setLayoutManager(layoutManager);
-            RentalAdapter rentalAdapter = new RentalAdapter(renters);
-            renterList.setAdapter(rentalAdapter);
+            recyclerView.setLayoutManager(layoutManager);
+            RentalAdapter rentalAdapter = new RentalAdapter(renters, this);
+            rentalAdapter.setOnItemClickListener(onItemClickListener);
+            recyclerView.setAdapter(rentalAdapter);
         } catch (SQLException e) {
             Toast.makeText(this, "Error retrieving renters", Toast.LENGTH_LONG).show();
         }
+    }
+    public void initAddRentalButton(){
+        Button newRental = findViewById(R.id.buttonAddRental);
+        newRental.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RenterListActivity.this, OrderActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+    private void initDeleteSwitch(){
+        Switch s = findViewById(R.id.switchDelete);
+        s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                Boolean status = compoundButton.isChecked();
+                rentalAdapter.setDelete(status);
+                rentalAdapter.notifyDataSetChanged();
+            }
+        });
     }
     private void buttonOrderAction(){
         ImageButton address = findViewById(R.id.imageButtonOrder);

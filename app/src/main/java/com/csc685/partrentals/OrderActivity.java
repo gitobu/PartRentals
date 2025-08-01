@@ -2,6 +2,7 @@ package com.csc685.partrentals;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.SQLException;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.activity.EdgeToEdge;
@@ -25,7 +27,7 @@ private Rental currentRental;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        currentRental = new Rental();
+        //currentRental = new Rental();
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_order);
@@ -41,6 +43,13 @@ private Rental currentRental;
         buttonRenterAction();
         saveAction();
         initTextChangedEvents();
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            initRenter(extras.getInt("renterId"));
+        } else {
+            currentRental = new Rental();
+        }
     }
     private void initToggleButton() {
         final ToggleButton toggleButton = (ToggleButton) findViewById(R.id.toggleButtonEditSave);
@@ -248,11 +257,11 @@ private Rental currentRental;
     private void saveAction(){
         Button button = findViewById(R.id.buttonSave);
         button.setOnClickListener(new View.OnClickListener() { // declare the widget to use the listener
-            // and determines the operations that should be performed based on success or failure of the methods
+            // and determines the operations that should be performed based on the success or failure of the methods
             @Override
             public void onClick(View view) {
             boolean wasSuccessful; //variable captures the return values of RentalDataSource methods
-                // and determines the operations that should be performed based on success or failure of the methods
+                // and determines the operations that should be performed based on the success or failure of the methods
             hideKeyboard();
             RentalDataSource ds = new RentalDataSource(OrderActivity.this);
             try {
@@ -302,6 +311,36 @@ private Rental currentRental;
         imm.hideSoftInputFromWindow(editTextQuantity.getWindowToken(),0);
         EditText editDescription = findViewById(R.id.editTextItemDescription);
         imm.hideSoftInputFromWindow(editDescription.getWindowToken(),0);
+    }
+    private void initRenter(int id){
+        RentalDataSource ds = new RentalDataSource(OrderActivity.this);
+        try {
+            ds.open();
+            currentRental = ds.getSpecificRental(id);
+            ds.close();
+        } catch (SQLException e) {
+            Toast.makeText(this, "Load Rental Failed", Toast.LENGTH_SHORT).show();
+        }
+        EditText editName = findViewById(R.id.editTextCustomerName);
+        EditText editPhone = findViewById(R.id.editTextPhoneNumber);
+        EditText editAddress = findViewById(R.id.editTextAddress);
+        EditText editCity = findViewById(R.id.editTextCity);
+        EditText editState = findViewById(R.id.editTextState);
+        EditText editZipCode = findViewById(R.id.editTextZipCode);
+        EditText editItem = findViewById(R.id.editTextRentalItem);
+        EditText editQuantity = findViewById(R.id.editTextQuantity);
+        EditText editDescription = findViewById(R.id.editTextItemDescription);
+
+        editName.setText(currentRental.getCustomer_name());
+        editPhone.setText(currentRental.getPhone_number());
+        editAddress.setText(currentRental.getAddress());
+        editCity.setText(currentRental.getCity());
+        editState.setText(currentRental.getState());
+        editZipCode.setText(currentRental.getZip_code());
+        editItem.setText(currentRental.getItem());
+        editQuantity.setText(currentRental.getQuantity());
+        editDescription.setText(currentRental.getDescription());
+
     }
     private void buttonOrderAction(){
         ImageButton address = findViewById(R.id.imageButtonOrder);
